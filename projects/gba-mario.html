@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GBA Super Mario (C) — Eujin Jeon</title>
+
+  <!-- Global site styles (cache-busted) -->
+  <link rel="stylesheet" href="../assets/css/style.css?v=6" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="project-detail">
+    <div class="split">
+      <!-- LEFT: back link + title + section buttons (sticky via your CSS overrides) -->
+      <aside class="project-side">
+  <a class="back-link" href="../index.html#projects">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+    Back to Projects
+  </a>
+
+  <header class="project-header">
+    <h1 class="h2">GBA Super Mario (C)</h1>
+    <p class="meta">Software Engineer • Atlanta, GA • Jan–Feb 2024</p>
+  </header>
+
+  <!-- Same jump buttons style as Spotify -->
+  <nav class="section-nav" aria-label="Sections">
+    <a class="toc-link active" href="#overview">Overview</a>
+    <a class="toc-link" href="#tech">Tech &amp; Links</a>
+    <a class="toc-link" href="#architecture">Architecture</a>
+  </nav>
+</aside>
+
+
+      <!-- RIGHT: content cards -->
+      <div class="project-main">
+        <!-- OVERVIEW -->
+        <section class="card" id="overview">
+          <h3 class="h3">Overview</h3>
+          <ul class="timeline-text">
+            <li>Developed an interactive Super Mario–style game in <strong>C</strong> targeting a Game Boy Advance emulator.</li>
+            <li>Implemented <strong>Mode 3</strong> video rendering and used <strong>DMA</strong> transfers for efficient image blits to ensure smooth gameplay without tearing.</li>
+            <li>Built <strong>2D movement</strong> for Mario with responsive button inputs and <strong>collision detection</strong> for tiles/objects.</li>
+          </ul>
+        </section>
+
+        <!-- TECH & LINKS -->
+        <section class="card" id="tech" style="margin-top:18px;">
+          <h3 class="h3">Tech Stack</h3>
+          <ul class="timeline-text">
+            <li><strong>Language:</strong> C</li>
+            <li><strong>Platform:</strong> Game Boy Advance (Mode 3)</li>
+            <li><strong>Graphics:</strong> Framebuffer rendering, DMA for fast memory copies</li>
+            <li><strong>Input:</strong> GBA keypad polling for A/B/Start/Select/D-Pad</li>
+            <li><strong>Core systems:</strong> game loop, sprite/tile handling, basic physics &amp; collisions</li>
+          </ul>
+
+          <h3 class="h3" style="margin-top:16px;">Links</h3>
+          <p class="links">
+            <!-- Replace # with your actual repo or demo when ready -->
+            <!-- <a class="contact-link" href="https://github.com/eujinjeon/gba-mario" target="_blank" rel="noopener">GitHub Repo</a> -->
+            <span class="timeline-text">Add repo / demo links when ready.</span>
+          </p>
+        </section>
+
+        <!-- ARCHITECTURE -->
+        <section class="card" id="architecture" style="margin-top:18px;">
+          <h3 class="h3">Architecture</h3>
+          <ul class="timeline-text">
+            <li><strong>Game Loop:</strong> update → render → VBlank sync for stable frame pacing.</li>
+            <li><strong>Rendering (Mode 3):</strong> direct pixel writes to the framebuffer; <strong>DMA</strong> used for large blits (backgrounds/sprites) to minimize CPU time and tearing.</li>
+            <li><strong>Input Handling:</strong> polled keypad state with debouncing for smooth controls.</li>
+            <li><strong>World &amp; Physics:</strong> tile-based map; AABB-style collision checks for ground, walls, and hazards.</li>
+            <li><strong>Entities:</strong> Mario player struct (position, velocity, state); simple enemy/obstacle structs as needed.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Scrollspy (matches your fixed/sticky sidebar setup) -->
+  <script>
+(() => {
+  const ids = ['overview','tech','architecture'];
+  const linkFor = id => document.querySelector(`.section-nav .toc-link[href="#${id}"]`);
+  const links = new Map(ids.map(id => [id, linkFor(id)]));
+  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+  const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+  const MOBILE_OFFSET = 96;
+  const DESKTOP_OFFSET = 16;
+  const bottomTol = 2;
+
+  const offsetTopForScroll = () => (isMobile() ? MOBILE_OFFSET : DESKTOP_OFFSET);
+
+  function activate(id) {
+    links.forEach(a => a && a.classList.remove('active'));
+    const a = links.get(id);
+    if (a) a.classList.add('active');
+  }
+
+  // Hit-test inside the right column so wide screens don’t flip early
+  function currentByHitTest() {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - bottomTol) {
+      return ids[ids.length - 1];
+    }
+    const main = document.querySelector('.project-main');
+    const rect = main ? main.getBoundingClientRect() : { left: 16, top: 0 };
+    const ySample = Math.max(rect.top + 24, offsetTopForScroll());
+    const xSample = rect.left + 8;
+
+    let el = document.elementFromPoint(xSample, ySample);
+    while (el && !(el.classList && el.classList.contains('card') && el.id)) el = el.parentElement;
+    if (el && el.id) return el.id;
+
+    // Fallback: last section whose top passed our measuring line
+    const line = offsetTopForScroll();
+    let current = ids[0];
+    for (const sec of sections) {
+      const r = sec.getBoundingClientRect();
+      if (r.top <= line) current = sec.id;
+    }
+    return current;
+  }
+
+  function onScroll() { activate(currentByHitTest()); }
+
+  function scrollToId(id) {
+    const sec = document.getElementById(id);
+    if (!sec) return;
+    const y = window.scrollY + sec.getBoundingClientRect().top - offsetTopForScroll();
+    activate(id);
+    history.replaceState(null, '', '#' + id);
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+
+  links.forEach((a, id) => a && a.addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollToId(id);
+  }));
+
+  window.addEventListener('load', () => {
+    const hash = (location.hash || '').slice(1);
+    const start = ids.includes(hash) ? hash : ids[0];
+    activate(start);
+    if (hash) {
+      const sec = document.getElementById(hash);
+      if (sec) window.scrollTo({ top: window.scrollY + sec.getBoundingClientRect().top - offsetTopForScroll() });
+    }
+    onScroll();
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+})();
+</script>
+
+</body>
+</html>

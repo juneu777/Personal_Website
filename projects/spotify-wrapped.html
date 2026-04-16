@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spotify Wrapped App — Eujin Jeon</title>
+
+  <!-- Global site styles (cache-busted) -->
+  <link rel="stylesheet" href="../assets/css/style.css?v=5" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Page-scoped styles for the section nav -->
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Split layout (uses your existing .split sizing) */
+    .project-detail .split {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .project-detail .split { grid-template-columns: 1fr; }
+    }
+
+    /* Sticky section nav in the left column */
+    .section-nav {
+      position: sticky;
+      top: 12px;
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .section-nav .toc-link {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--jet);
+      background: var(--eerie-black-2);
+      color: var(--white-2);
+      text-decoration: none;
+      font-size: var(--fs-6);
+      transition: transform .12s ease, background .15s ease, border-color .15s ease, color .15s ease;
+    }
+    .section-nav .toc-link:hover { transform: translateY(-1px); background: hsl(240 2% 20%); }
+    .section-nav .toc-link.active {
+      border-color: var(--orange-yellow-crayola);
+      color: var(--orange-yellow-crayola);
+    }
+
+    /* Give anchor targets some top breathing room */
+    .project-main .card[id] { scroll-margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <main class="project-detail">
+    <div class="split">
+      <!-- LEFT: back link + title + section buttons -->
+      <aside class="project-side">
+        <a class="back-link" href="../index.html#projects">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          Back to Projects
+        </a>
+
+        <header class="project-header">
+          <h1 class="h2">Spotify Wrapped App</h1>
+          <p class="meta">Android • Spotify API • March–May 2024</p>
+        </header>
+
+        <!-- Sticky Section Nav -->
+        <nav class="section-nav" aria-label="Sections">
+          <a class="toc-link active" href="#overview">Overview</a>
+          <a class="toc-link" href="#video">Video Demo</a>
+          <a class="toc-link" href="#tech">Tech &amp; Links</a>
+          <a class="toc-link" href="#architecture">Architecture</a>
+          <a class="toc-link" href="#process">Process</a>
+        </nav>
+      </aside>
+
+      <!-- RIGHT: all content cards stacked -->
+      <div class="project-main">
+        <!-- 1) OVERVIEW -->
+        <section class="card" id="overview">
+          <h3 class="h3">Overview</h3>
+          <ul class="timeline-text">
+            <li>Login with Spotify (OAuth) to securely access listening data.</li>
+            <li>View a summary with top artists and top tracks.</li>
+            <li>Play short previews for selected songs.</li>
+            <li>Choose a timespan: short, medium, or long term.</li>
+            <li>See recommended artists based on your history.</li>
+            <li>Manage profile: update password, log out, or delete account.</li>
+          </ul>
+        </section>
+
+        <!-- 2) VIDEO DEMO -->
+        <section class="card" id="video" style="margin-top:18px;">
+          <h3 class="h3">Video Demo</h3>
+          <figure class="project-hero video-compact" style="margin-top:8px; max-width:320px; margin-left:auto; margin-right:auto;">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/SpotifyDemo.mp4" type="video/mp4">
+              Sorry, your browser doesn’t support video.
+            </video>      
+          </figure>
+        </section>
+
+
+        <!-- 3) TECH STACK & LINKS -->
+        <section class="card" id="tech" style="margin-top:18px;">
+          <h3 class="h3">Tech Stack</h3>
+          <ul class="timeline-text">
+            <li>Android (Kotlin/Java)</li>
+            <li>Spotify Web API (REST/JSON)</li>
+            <li>MVVM architecture</li>
+          </ul>
+
+          <h3 class="h3" style="margin-top:16px;">Links</h3>
+          <p class="links">
+            <!-- Add real links when ready -->
+            <!-- <a class="contact-link" href="https://github.com/eujinjeon/spotify-wrapped" target="_blank" rel="noopener">GitHub Repo</a> -->
+            <!-- <a class="contact-link" href="https://your-demo-link" target="_blank" rel="noopener">Demo / APK</a> -->
+            <span class="timeline-text">Add repo / demo links when ready.</span>
+          </p>
+        </section>
+
+        <!-- 4) ARCHITECTURE -->
+        <section class="card" id="architecture" style="margin-top:18px;">
+          <h3 class="h3">Architecture — MVC</h3>
+          <figure class="project-hero" style="margin-top:8px;">
+            <img src="../assets/images/spotify-mvc.png"
+                 alt="MVC diagram: View ↔ Controller, Controller ↔ Model with data requests/responses and user actions.">
+          </figure>
+          <ul class="timeline-text" style="margin-top:10px;">
+            <li><strong>Model:</strong> user profile data, Spotify listening history, recommendations data.</li>
+            <li><strong>View:</strong> login, wrapped summary, recommended page, settings/profile.</li>
+            <li><strong>Controller:</strong> user authentication handler, data fetching &amp; processing, UI updates.</li>
+            <li><strong>User actions:</strong> flow from View → Controller (login, pick timespan, tap play).</li>
+            <li><strong>Data request/response:</strong> Controller ↔ Model for fetching and returning data.</li>
+            <li><strong>Data sent:</strong> Controller updates the View with new data and commands.</li>
+          </ul>
+        </section>
+
+        <!-- 5) PROCESS -->
+        <section class="card" id="process" style="margin-top:18px;">
+          <h3 class="h3">Process &amp; Team Workflow (Agile)</h3>
+          <ul class="timeline-text">
+            <li>Used <strong>Agile (Scrum-style)</strong> with a <strong>2.5-week sprint cadence</strong>.</li>
+            <li><strong>Sprint planning:</strong> set goals &amp; story-point estimates; committed within capacity.</li>
+            <li><strong>Daily stand-ups (Discord):</strong> noon updates on yesterday’s work &amp; blockers.</li>
+            <li><strong>Weekly TA sync:</strong> Rohan on Tuesdays 4:30 pm via Zoom for Q&amp;A and status.</li>
+            <li><strong>Tracking:</strong> Trello board (backlog → in progress → review → done).</li>
+            <li><strong>Pre-demo:</strong> 2.5 weeks after spring break; <em>20+ story points</em>, TA feedback, assessment exemption.</li>
+            <li><strong>Retrospectives:</strong> after each sprint to capture “went well / improve next”.</li>
+            <li><strong>Ad-hoc in-person sessions</strong> for tricky issues and planning.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Highlight active button on scroll -->
+<script>
+(() => {
+  const ids = ['overview','video','tech','architecture','process'];
+
+  // map ids -> nav links
+  const linkFor = id => document.querySelector(`.section-nav .toc-link[href="#${id}"]`);
+  const links = new Map(ids.map(id => [id, linkFor(id)]));
+
+  // sections (cards) to watch
+  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+  const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+  const MOBILE_OFFSET = 96;          // keep in sync with CSS
+  const DESKTOP_OFFSET = 0;          // no top bar on desktop
+  const bottomTol = 2;               // px tolerance for "at bottom"
+
+  function offsetTopForScroll() {
+    return isMobile() ? MOBILE_OFFSET : DESKTOP_OFFSET;
+  }
+
+  function activate(id) {
+    links.forEach(a => a && a.classList.remove('active'));
+    const a = links.get(id);
+    if (a) a.classList.add('active');
+  }
+
+  // robust: sample the element under a point INSIDE the right column
+  function currentByHitTest() {
+    // force last when at bottom
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - bottomTol) {
+      return ids[ids.length - 1];
+    }
+
+    const main = document.querySelector('.project-main');
+    const rect = main ? main.getBoundingClientRect() : { left: 16, top: 0 };
+    const ySample = Math.max(rect.top + 8, isMobile() ? MOBILE_OFFSET : 8); // inside content
+    const xSample = rect.left + 8;
+
+    let el = document.elementFromPoint(xSample, ySample);
+    while (el && !(el.classList && el.classList.contains('card') && el.id)) {
+      el = el.parentElement;
+    }
+    if (el && el.id) return el.id;
+
+    // fallback: last section whose top passed our measuring line
+    const line = isMobile() ? MOBILE_OFFSET : 0;
+    let current = ids[0];
+    for (const sec of sections) {
+      const r = sec.getBoundingClientRect();
+      if (r.top <= line) current = sec.id;
+    }
+    return current;
+  }
+
+  function onScroll() {
+    activate(currentByHitTest());
+  }
+
+  // smooth scroll with proper offset + instant highlight
+  function scrollToId(id) {
+    const sec = document.getElementById(id);
+    if (!sec) return;
+    const y = window.scrollY + sec.getBoundingClientRect().top - offsetTopForScroll();
+    activate(id); // immediate visual feedback
+    history.replaceState(null, '', '#' + id);
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+
+  // wire clicks
+  links.forEach((a, id) => {
+    if (!a) return;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToId(id);
+    });
+  });
+
+  // initial state
+  window.addEventListener('load', () => {
+    const hash = (location.hash || '').slice(1);
+    const start = ids.includes(hash) ? hash : ids[0];
+    activate(start);
+    if (hash) {
+      const sec = document.getElementById(hash);
+      if (sec) window.scrollTo({ top: window.scrollY + sec.getBoundingClientRect().top - offsetTopForScroll() });
+    }
+    onScroll();
+  });
+
+  // track scroll/resize
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+})();
+</script>
+
+
+
+
+  </body>
+</html>

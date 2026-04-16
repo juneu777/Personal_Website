@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Active Safety for Autonomous and Semi-Autonomous Vehicles — Eujin Jeon</title>
+
+  <!-- Global site styles (cache-busted) -->
+  <link rel="stylesheet" href="../assets/css/style.css?v=5" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Page-scoped styles for the section nav -->
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Split layout (uses your existing .split sizing) */
+    .project-detail .split {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .project-detail .split { grid-template-columns: 1fr; }
+    }
+
+    /* Sticky section nav in the left column */
+    .section-nav {
+      position: sticky;
+      top: 12px;
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .section-nav .toc-link {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--jet);
+      background: var(--eerie-black-2);
+      color: var(--white-2);
+      text-decoration: none;
+      font-size: var(--fs-6);
+      transition: transform .12s ease, background .15s ease, border-color .15s ease, color .15s ease;
+    }
+
+    .section-nav .toc-link:hover {
+      transform: translateY(-1px);
+      background: hsl(240 2% 20%);
+    }
+
+    .section-nav .toc-link.active {
+      border-color: var(--orange-yellow-crayola);
+      color: var(--orange-yellow-crayola);
+    }
+
+    /* Give anchor targets some top breathing room */
+    .project-main .card[id] { scroll-margin-top: 16px; }
+
+    .walkthrough-step {
+      margin-top: 18px;
+    }
+
+    .walkthrough-step h4 {
+      margin-bottom: 8px;
+      color: var(--white-2);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .walkthrough-media {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .walkthrough-media img,
+    .walkthrough-media video {
+      width: 100%;
+      max-width: 900px;
+      max-height: 500px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 14px;
+    }
+
+    .walkthrough-media + .walkthrough-media {
+      margin-top: 12px;
+    }
+
+    .phone-media img,
+    .phone-media video {
+      max-width: 320px;
+      max-height: 560px;
+    }
+  </style>
+</head>
+<body>
+  <main class="project-detail">
+    <div class="split">
+      <!-- LEFT: back link + title + section buttons -->
+      <aside class="project-side">
+        <a class="back-link" href="../index.html#projects">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          Back to Projects
+        </a>
+
+        <header class="project-header">
+          <h1 class="h2">Active Safety for Autonomous and Semi-Autonomous Vehicles</h1>
+        </header>
+
+        <!-- Sticky Section Nav -->
+        <nav class="section-nav" aria-label="Sections">
+          <a class="toc-link active" href="#overview">Overview</a>
+          <a class="toc-link" href="#walkthrough">Process Walkthrough</a>
+          <a class="toc-link" href="#tech">Tech &amp; Links</a>
+        </nav>
+      </aside>
+
+      <!-- RIGHT: all content cards stacked -->
+      <div class="project-main">
+        <!-- 1) OVERVIEW -->
+        <section class="card" id="overview">
+          <h3 class="h3">Overview</h3>
+          <ul class="timeline-text">
+            <li>Developed active safety systems for autonomous and semi-autonomous vehicles using ROS2, Python, and simulation tools.</li>
+            <li>Improved vehicle odometry calibration to support more accurate localization and mapping.</li>
+            <li>Built a SLAM-based mapping workflow and generated a static map for autonomous navigation.</li>
+            <li>Used Nav2 map server and AMCL to publish maps and localize the vehicle in the environment.</li>
+            <li>Worked on trajectory optimization to improve center-line path planning and safer navigation behavior.</li>
+            <li>Collaborated in a VIP research team to test, debug, and present progress throughout the semester.</li>
+          </ul>
+        </section>
+
+        <!-- 2) PROCESS WALKTHROUGH -->
+        <section class="card" id="walkthrough" style="margin-top:18px;">
+          <h3 class="h3">Process Walkthrough</h3>
+          <p class="timeline-text" style="margin-top:8px;">
+            This project progressed from odometry calibration to mapping, localization, and trajectory planning. Each stage built on the previous one to improve the reliability of the autonomous vehicle system.
+          </p>
+
+          <div class="walkthrough-step">
+            <h4>1. Odometry Calibration</h4>
+            <p class="timeline-text">
+              We followed an odometry calibration procedure and adjusted steering and speed conversion parameters in order to improve motion tracking. This also helped fix reversed orientation and chirality issues, where the odometry output did not match the car’s real turning direction.
+            </p>
+
+            <!-- Replace with your image/video paths -->
+            <figure class="walkthrough-media">
+              <img src="../assets/images/Odom.jpg" alt="Odometry calibration for the autonomous vehicle project">
+            </figure>
+
+            <figure class="walkthrough-media">
+              <video controls playsinline preload="metadata">
+                <source src="../assets/videos/Odom.mp4" type="video/mp4">
+                Sorry, your browser doesn’t support video.
+              </video>
+            </figure>
+          </div>
+
+          <div class="walkthrough-step">
+            <h4>2. SLAM Mapping</h4>
+            <p class="timeline-text">
+              After improving odometry, we used SLAM Toolbox to generate a cleaner map of the indoor environment. We improved SLAM performance by increasing map resolution and tuning loop matching settings so the system could close loops more accurately.
+            </p>
+
+            <figure class="walkthrough-media">
+              <video controls playsinline preload="metadata">
+                <source src="../assets/videos/SLAMMapping1.mp4" type="video/mp4">
+                Sorry, your browser doesn’t support video.
+                </video>
+            </figure>
+
+            <figure class="walkthrough-media">
+              <video controls playsinline preload="metadata">
+                <source src="../assets/videos/SLAMMAPPING2.mp4" type="video/mp4">
+                Sorry, your browser doesn’t support video.
+              </video>
+            </figure>
+          </div>
+
+          <div class="walkthrough-step">
+            <h4>3. Using Nav2 Map Server to Display the Map</h4>
+            <p class="timeline-text">
+              Once the static map was captured, we used the Nav2 map server to publish it to the map topic and verified that it displayed correctly in RViz2. This gave us a stable map that could be reused for localization and navigation.
+            </p>
+
+            <figure class="walkthrough-media">
+              <img src="../assets/images/NAV2.jpg" alt="Nav2 map server visualization in RViz2">
+            </figure>
+          </div>
+
+          <div class="walkthrough-step">
+            <h4>4. Localization Using AMCL</h4>
+            <p class="timeline-text">
+              We then used AMCL to localize the vehicle against the static map. At first, we could set the initial pose but had trouble getting continuous pose estimates. After debugging, the system successfully published pose estimates and localized the car in the mapped hallway.
+            </p>
+
+            <figure class="walkthrough-media">
+              <video controls playsinline preload="metadata">
+                <source src="../assets/videos/Local.mp4" type="video/mp4">
+                Sorry, your browser doesn't supoort video.
+              </video>
+            </figure>
+              
+            <figure class="walkthrough-media">
+              <video controls playsinline preload="metadata">
+                <source src="../assets/videos/Localization.mp4" type="video/mp4">
+                Sorry, your browser doesn’t support video.
+              </video>
+            </figure>
+          </div>
+
+          <div class="walkthrough-step">
+            <h4>5. Trajectory Optimization</h4>
+            <p class="timeline-text">
+              For path planning, we explored trajectory optimization by determining the center line of the track and improving it with a curvature-based cost metric. This step focused on making navigation smoother and more reliable.
+            </p>
+
+            <figure class="walkthrough-media">
+              <img src="../assets/images/Traject.png" alt="Trajectory optimization for autonomous vehicle navigation">
+            </figure>
+          </div>
+
+          <div class="walkthrough-step">
+            <h4>6. Demo</h4>
+            <p class="timeline-text">
+              We tested the full system after these steps to verify that the vehicle could successfully navigate the environment using the generated map.
+            </p>
+            <figure class="walkthrough-media">
+              <video controls playsinline preload="metadata">
+                <source src="../assets/videos/final.mp4" type="video/mp4">
+                Sorry, your browser doesn’t support video.
+              </video>
+            </figure>
+          </div>
+        </section>
+
+
+
+
+        <!-- 3) TECH STACK & LINKS -->
+        <section class="card" id="tech" style="margin-top:18px;">
+          <h3 class="h3">Tech Stack</h3>
+          <ul class="timeline-text">
+            <li>ROS2</li>
+            <li>Python</li>
+            <li>SLAM Toolbox</li>
+            <li>Nav2 Map Server</li>
+            <li>AMCL</li>
+            <li>RViz2</li>
+            <li>OpenCV</li>
+            <li>NVIDIA DRIVE</li>
+          </ul>
+
+          <h3 class="h3" style="margin-top:16px;">Links</h3>
+          <p class="links">
+            <a class="contact-link" href="https://www.vip-consortium.org/teams/active-safety-autonomous-and-semi-autonomous-vehicles" target="_blank" rel="noopener">VIP Project Website</a>
+            <br>
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Highlight active button on scroll -->
+  <script>
+    (() => {
+      const ids = ['overview', 'walkthrough', 'tech'];
+
+      const linkFor = id => document.querySelector(`.section-nav .toc-link[href="#${id}"]`);
+      const links = new Map(ids.map(id => [id, linkFor(id)]));
+      const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+      const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+      const MOBILE_OFFSET = 96;
+      const DESKTOP_OFFSET = 0;
+      const bottomTol = 2;
+
+      function offsetTopForScroll() {
+        return isMobile() ? MOBILE_OFFSET : DESKTOP_OFFSET;
+      }
+
+      function activate(id) {
+        links.forEach(a => a && a.classList.remove('active'));
+        const a = links.get(id);
+        if (a) a.classList.add('active');
+      }
+
+      function currentByHitTest() {
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - bottomTol) {
+          return ids[ids.length - 1];
+        }
+
+        const main = document.querySelector('.project-main');
+        const rect = main ? main.getBoundingClientRect() : { left: 16, top: 0 };
+        const ySample = Math.max(rect.top + 8, isMobile() ? MOBILE_OFFSET : 8);
+        const xSample = rect.left + 8;
+
+        let el = document.elementFromPoint(xSample, ySample);
+        while (el && !(el.classList && el.classList.contains('card') && el.id)) {
+          el = el.parentElement;
+        }
+        if (el && el.id) return el.id;
+
+        const line = isMobile() ? MOBILE_OFFSET : 0;
+        let current = ids[0];
+        for (const sec of sections) {
+          const r = sec.getBoundingClientRect();
+          if (r.top <= line) current = sec.id;
+        }
+        return current;
+      }
+
+      function onScroll() {
+        activate(currentByHitTest());
+      }
+
+      function scrollToId(id) {
+        const sec = document.getElementById(id);
+        if (!sec) return;
+        const y = window.scrollY + sec.getBoundingClientRect().top - offsetTopForScroll();
+        activate(id);
+        history.replaceState(null, '', '#' + id);
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+
+      links.forEach((a, id) => {
+        if (!a) return;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          scrollToId(id);
+        });
+      });
+
+      window.addEventListener('load', () => {
+        const hash = (location.hash || '').slice(1);
+        const start = ids.includes(hash) ? hash : ids[0];
+        activate(start);
+        if (hash) {
+          const sec = document.getElementById(hash);
+          if (sec) {
+            window.scrollTo({
+              top: window.scrollY + sec.getBoundingClientRect().top - offsetTopForScroll()
+            });
+          }
+        }
+        onScroll();
+      });
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    })();
+  </script>
+</body>
+</html>
